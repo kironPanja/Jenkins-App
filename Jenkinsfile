@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -14,9 +13,12 @@ pipeline {
         stage('Copy to Nginx HTML Folder') {
             steps {
                 bat '''
-                xcopy "%WORKSPACE%\\*" "C:\\nginx\\html\\" /E /I /Y
-                net stop nginx
-                net start nginx
+                REM Copy files from Jenkins workspace to Nginx HTML folder
+                xcopy "%WORKSPACE%\\*" "C:\\ProgramData\\nginx\\html\\" /E /I /Y
+
+                REM Start Nginx manually (if not running as a service)
+                cd C:\\ProgramData\\nginx
+                start nginx
                 '''
             }
         }
@@ -24,10 +26,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Files copied to Nginx successfully!'
+            echo '✅ Files successfully deployed to Nginx!'
         }
         failure {
-            echo '❌ Pipeline failed. Please check logs for errors.'
+            echo '❌ Pipeline failed. Check logs for details.'
         }
     }
 }

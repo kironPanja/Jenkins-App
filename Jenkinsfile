@@ -6,7 +6,7 @@ pipeline {
         stage('Pull from GitHub') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/kironPanja/wipro-devops-repo.git',
+                    url: 'https://github.com/kironPanja/Jenkins-App.git',
                     credentialsId: 'github-creds'
             }
         }
